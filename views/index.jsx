@@ -35,24 +35,34 @@ var Todo = React.createClass({
   },
   getInitialState: function() {
     return {
-      checked: false
+      checked: false,
+      TodoStyle: style.notCheckedTodo
     }
   },
   handleChange: function(e) {
     this.setState({
       checked: e.target.checked
     });
+    if (e.target.checked) {
+      this.setState({
+        TodoStyle: style.checkedTodo
+      });
+    } else {
+      this.setState({
+        TodoStyle: style.notCheckedTodo
+      });
+    }
   },
   render: function() {
     return(
-      <tr>
+      <tr style={this.state.TodoStyle}>
         <td style={style.tableContent}><input type="checkbox" checked={this.state.checked} onChange={this.handleChange} /></td>
         <td style={style.tableContent}>{this.props.title}</td>
         <td style={style.tableContent}>{this.props.children}</td>
       </tr>
     );
   }
-})
+});
 
 var TodoForm = React.createClass({
   render: function() {
@@ -65,6 +75,12 @@ var TodoForm = React.createClass({
 });
 
 var style = {
+  checkedTodo: {
+    textDecoration: "line-through"
+  },
+  notCheckedTodo: {
+    textDecoration: "none"
+  },
   tableContent: {
     border: "1px solid black"
   }
